@@ -82,7 +82,7 @@ export default function ResultDisplay({
                         </li>
                         <li>
                             <strong>支払期日の算出：</strong>
-                            算出された締日から、<strong>支払条件</strong>の<strong>固定日・追加月数・追加日数</strong>を加算して支払期日を計算します。
+                            算出された締日から、<strong>支払条件</strong>の<strong>固定日・追加月数</strong>を加算して支払期日を計算します。
                         </li>
                     </ol>
                 </div>
@@ -110,7 +110,7 @@ export default function ResultDisplay({
                                             </span>
                                         </div>
                                         <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
-                                            （②期限 / Day limit）
+                                            （①期限 / Day limit）
                                         </span>
                                     </div>
                                 </th>
@@ -123,7 +123,7 @@ export default function ResultDisplay({
                                             </span>
                                         </div>
                                         <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
-                                            （⑪Fixed day）
+                                            （①Fixed day）
                                         </span>
                                     </div>
                                 </th>
@@ -136,15 +136,7 @@ export default function ResultDisplay({
                                             </span>
                                         </div>
                                         <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
-                                            （⑪Add months）
-                                        </span>
-                                    </div>
-                                </th>
-                                <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">
-                                    <div className="flex flex-col">
-                                        <span>追加日数</span>
-                                        <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
-                                            （Add days）
+                                            （②Add months）
                                         </span>
                                     </div>
                                 </th>
@@ -168,9 +160,6 @@ export default function ResultDisplay({
                                     <td className="border border-gray-300 dark:border-gray-700 px-4 py-2 font-mono">
                                         {row.addMonths}
                                     </td>
-                                    <td className="border border-gray-300 dark:border-gray-700 px-4 py-2 font-mono">
-                                        {row.addDays}
-                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -186,7 +175,7 @@ export default function ResultDisplay({
                         <dl className="space-y-3 text-sm">
                             <div>
                                 <dt className="font-semibold text-purple-800 dark:text-purple-300 mb-1">
-                                    ② 期限（日限 / Day limit）
+                                    ① 期限（日限 / Day limit）
                                 </dt>
                                 <dd className="text-purple-700 dark:text-purple-300 ml-4">
                                     締日を計算する際の日数制限です。1〜31の値を設定し、31は月末を意味します。
@@ -198,14 +187,25 @@ export default function ResultDisplay({
                             </div>
                             <div>
                                 <dt className="font-semibold text-purple-800 dark:text-purple-300 mb-1">
-                                    支払基準日計算：⑥ 固定日（Fixed day）・⑦ 追加月（Add months）
+                                    ② 固定日（Fixed day）
                                 </dt>
                                 <dd className="text-purple-700 dark:text-purple-300 ml-4">
-                                    <strong>固定日</strong>は締日を特定の日に補正します（10/15/20/25/31=月末など）。
-                                    <strong>追加月</strong>は基準日から何ヶ月後に締日を設定するかを指定します（0=当月、1=翌月、2=翌々月）。
+                                    締日を特定の日に補正します。10/15/20/25/31（月末）などが一般的です。
+                                    固定日が31の場合は、その月の末日が締日となります。
                                     <span className="block mt-1 text-xs italic">
-                                        （注：このテーブルの「固定日」「追加月数」は、実際には支払期日算出に使用されます。
-                                        SAP OBB8の「支払基準日計算」セクションとは別の設定です）
+                                        （SAP OBB8の「支払基準日計算」セクションで設定します）
+                                    </span>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt className="font-semibold text-purple-800 dark:text-purple-300 mb-1">
+                                    ③ 追加月（Add months）
+                                </dt>
+                                <dd className="text-purple-700 dark:text-purple-300 ml-4">
+                                    基準日から何ヶ月後に締日を設定するかを指定します。
+                                    0=当月、1=翌月、2=翌々月となります。
+                                    <span className="block mt-1 text-xs italic">
+                                        （SAP OBB8の「支払基準日計算」セクションで設定します）
                                     </span>
                                 </dd>
                             </div>
@@ -220,7 +220,7 @@ export default function ResultDisplay({
                         <dl className="space-y-3 text-sm">
                             <div>
                                 <dt className="font-semibold text-blue-800 dark:text-blue-300 mb-1">
-                                    ⑪ 固定日（Fixed day）
+                                    ① 固定日（Fixed day）
                                 </dt>
                                 <dd className="text-blue-700 dark:text-blue-300 ml-4">
                                     算出された締日から、支払期日を特定の日に固定します。10/15/20/25/31（月末）などが一般的です。
@@ -232,7 +232,7 @@ export default function ResultDisplay({
                             </div>
                             <div>
                                 <dt className="font-semibold text-blue-800 dark:text-blue-300 mb-1">
-                                    ⑪ 追加月数（Add months）
+                                    ② 追加月数（Add months）
                                 </dt>
                                 <dd className="text-blue-700 dark:text-blue-300 ml-4">
                                     締日から何ヶ月後に支払期日を設定するかを指定します。
@@ -240,15 +240,6 @@ export default function ResultDisplay({
                                     <span className="block mt-1 text-xs italic">
                                         （例：「月末締 翌月末払い」の場合、締日が1月末なら追加月数1で支払期日は2月末となります）
                                     </span>
-                                </dd>
-                            </div>
-                            <div>
-                                <dt className="font-semibold text-blue-800 dark:text-blue-300 mb-1">
-                                    追加日数（Add days）
-                                </dt>
-                                <dd className="text-blue-700 dark:text-blue-300 ml-4">
-                                    ネット日数など、固定日や追加月数に加えて追加する日数を指定します。
-                                    通常は0ですが、「ネット30日」などの場合は30を設定します。
                                 </dd>
                             </div>
                         </dl>

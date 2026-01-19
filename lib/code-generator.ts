@@ -125,7 +125,6 @@ export interface OBB8TableRow {
     dayLimit: string;
     fixedDay: string;
     addMonths: string;
-    addDays: string;
     description: string;
 }
 
@@ -152,7 +151,6 @@ export function convertLinesToTableRows(lines: OBB8Line[]): OBB8TableRow[] {
             dayLimit: dayLimitText,
             fixedDay: fixedDayText,
             addMonths: line.add_months.toString(),
-            addDays: line.add_days.toString(),
             description,
         };
     });
